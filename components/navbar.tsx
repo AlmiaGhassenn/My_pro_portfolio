@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun, Globe } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -30,11 +30,9 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const { locale, setLocale, t } = useLanguage();
 
-  // Refs to avoid re-creating scroll listener when menu state changes
-  const isOpenRef = useRef(isOpen);
-  const langMenuOpenRef = useRef(langMenuOpen);
-  isOpenRef.current = isOpen;
-  langMenuOpenRef.current = langMenuOpen;
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileToggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -48,6 +46,18 @@ export function Navbar() {
     { name: t.nav.experience, href: "#experience" },
     { name: t.nav.contact, href: "#contact" },
   ];
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   // Throttled scroll handler using rAF
   useEffect(() => {
@@ -76,28 +86,40 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Click outside handler (separate from scroll to avoid re-binds)
+  // Click outside handler for language menu only
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isOpenRef.current && !(event.target as Element).closest(".mobile-menu")) {
-        setIsOpen(false);
-      }
-      if (langMenuOpenRef.current && !(event.target as Element).closest(".lang-menu")) {
+      if (
+        langMenuOpen &&
+        langMenuRef.current &&
+        !langMenuRef.current.contains(event.target as Node)
+      ) {
         setLangMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [langMenuOpen]);
+
+  const scrollToSection = useCallback((href: string) => {
+    // Close mobile menu first
+    setIsOpen(false);
+    setLangMenuOpen(false);
+
+    // Small delay so the menu closes before scrolling (avoids layout shift)
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsOpen(false);
-    }
-  };
+  const toggleMobileMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+    setLangMenuOpen(false);
+  }, []);
 
   return (
     <motion.nav
@@ -154,7 +176,7 @@ export function Navbar() {
           {/* Right side controls */}
           <div className="flex items-center gap-2">
             {/* Language switcher */}
-            <div className="relative lang-menu">
+            <div className="relative" ref={langMenuRef}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
@@ -173,7 +195,7 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full mt-2 end-0 w-40 bg-background/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl overflow-hidden z-50"
+                    className="absolute top-full mt-2 end-0 w-40 bg-background/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl overflow-hidden z-[60]"
                   >
                     {(Object.keys(langLabels) as Locale[]).map((lang) => (
                       <button
@@ -216,51 +238,113 @@ export function Navbar() {
 
             {/* Mobile menu button */}
             <motion.button
+              ref={mobileToggleRef}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-300"
+              onClick={toggleMobileMenu}
+              className="md:hidden p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-300 relative z-[60]"
               aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <AnimatePresence mode="wait" initial={false}>
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
+      {/* Mobile Navigation Overlay + Panel */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop overlay */}
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden overflow-hidden mobile-menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 top-0 bg-black/40 backdrop-blur-sm md:hidden z-[45]"
+              onClick={() => setIsOpen(false)}
+              aria-hidden="true"
+            />
+
+            {/* Mobile menu panel */}
+            <motion.div
+              ref={mobileMenuRef}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="md:hidden absolute top-full left-0 right-0 z-[55] mx-3 mt-2 rounded-2xl bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl shadow-black/10 overflow-hidden"
             >
-              <div className="pb-6 pt-2 space-y-1">
+              <div className="p-4 space-y-1">
                 {navLinks.map((link, index) => {
                   const isActive = activeSection === link.href.replace("#", "");
                   return (
                     <motion.button
                       key={link.href}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05, duration: 0.3 }}
+                      transition={{ delay: index * 0.04, duration: 0.25 }}
                       onClick={() => scrollToSection(link.href)}
-                      className={`block w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
+                      className={`flex items-center w-full text-left px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-200 active:scale-[0.98] ${
                         isActive
                           ? "text-primary bg-primary/10 border border-primary/20"
-                          : "text-foreground hover:text-primary hover:bg-primary/5"
+                          : "text-foreground hover:text-primary hover:bg-primary/5 border border-transparent"
                       }`}
                     >
+                      {/* Active indicator dot */}
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full mr-3 transition-all duration-300 ${
+                          isActive
+                            ? "bg-primary scale-100"
+                            : "bg-muted-foreground/30 scale-75"
+                        }`}
+                      />
                       {link.name}
                     </motion.button>
                   );
                 })}
               </div>
+
+              {/* Bottom divider with gradient */}
+              <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+              {/* Mobile bottom bar with theme + language info */}
+              <div className="px-4 py-3 flex items-center justify-between">
+                <span className="text-xs text-muted-foreground font-medium">
+                  © {new Date().getFullYear()} GhassenAlmia
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] text-muted-foreground/60 uppercase tracking-wider">
+                    {langNames[locale]}
+                  </span>
+                </div>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
