@@ -10,6 +10,7 @@ import { Experience } from '@/components/sections/experience'
 import { Contact } from '@/components/sections/contact'
 import { Footer } from '@/components/footer'
 import { BackToTop } from '@/components/back-to-top'
+import { WhatsAppButton } from '@/components/whatsapp-button'
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
         <Experience />
         <Contact />
         <Footer />
+        <WhatsAppButton />
         <BackToTop />
       </main>
     </LanguageProvider>

@@ -11,6 +11,7 @@ export const portfolioData = {
   socials: [
     { name: "GitHub", url: "https://github.com/AlmiaGhassenn" },
     { name: "LinkedIn", url: "https://www.linkedin.com/in/ghassen-almia?trk=blended-typeahead" },
+    { name: "WhatsApp", url: "https://wa.me/21653519301" },
   ],
 
   // About section
