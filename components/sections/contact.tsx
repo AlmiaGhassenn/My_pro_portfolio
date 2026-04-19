@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle, ArrowUpRight } from "lucide-react";
 import { portfolioData } from "@/lib/constants";
 
 export function Contact() {
@@ -28,73 +28,95 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-secondary/50 dark:bg-secondary/20">
-      <div className="max-w-4xl mx-auto">
+    <section id="contact" className="py-24 px-4 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/40 via-transparent to-secondary/40 dark:from-secondary/15 dark:via-transparent dark:to-secondary/15" />
+      </div>
+
+      <div className="max-w-5xl mx-auto">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
+          className="mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4 text-foreground">Get In Touch</h2>
-          <p className="text-muted-foreground mb-12 text-lg">
-            Have a project or question? I&apos;d love to hear from you. Feel free to reach out!
+          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">Contact</span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">
+            Get In Touch
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mt-4" />
+          <p className="text-muted-foreground mt-4 text-lg max-w-xl">
+            Have a project idea or just want to chat? I&apos;d love to hear from you.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-5 gap-12">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="md:col-span-2 space-y-5"
           >
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <Mail className="w-6 h-6 text-primary mt-1" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                <a
-                  href={`mailto:${portfolioData.email}`}
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {portfolioData.email}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <MapPin className="w-6 h-6 text-primary mt-1" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-1">Location</h3>
-                <p className="text-muted-foreground">{portfolioData.location}</p>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <Phone className="w-6 h-6 text-primary mt-1" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-1">Follow</h3>
-                <div className="flex gap-4">
-                  {portfolioData.socials.map((social) => (
-                    <a
-                      key={social.name}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      {social.name}
-                    </a>
-                  ))}
+            {/* Email card */}
+            <motion.a
+              href={`mailto:${portfolioData.email}`}
+              whileHover={{ y: -3 }}
+              className="group block p-5 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                  <Mail className="w-5 h-5 text-primary" />
                 </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Email me</p>
+                  <p className="text-foreground font-medium mt-1 group-hover:text-primary transition-colors truncate">
+                    {portfolioData.email}
+                  </p>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 mt-1" />
+              </div>
+            </motion.a>
+
+            {/* Location card */}
+            <motion.div
+              whileHover={{ y: -3 }}
+              className="group p-5 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                  <MapPin className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Based in</p>
+                  <p className="text-foreground font-medium mt-1">{portfolioData.location}</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Social links */}
+            <div className="space-y-3 pt-2">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Find me on</p>
+              <div className="flex flex-col gap-3">
+                {portfolioData.socials.map((social) => (
+                  <motion.a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ x: 4 }}
+                    className="group flex items-center gap-3 text-muted-foreground hover:text-primary transition-all duration-300"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
+                    <span className="font-medium">{social.name}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </motion.a>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -103,41 +125,43 @@ export function Contact() {
           <motion.form
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
             viewport={{ once: true }}
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="md:col-span-3 space-y-5"
           >
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:border-primary transition-colors"
-                placeholder="Your name"
-              />
-            </div>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-border/50 rounded-xl bg-background/60 dark:bg-background/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all duration-300 backdrop-blur-sm placeholder:text-muted-foreground/50"
+                  placeholder="Your name"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:border-primary transition-colors"
-                placeholder="your.email@example.com"
-              />
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-border/50 rounded-xl bg-background/60 dark:bg-background/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all duration-300 backdrop-blur-sm placeholder:text-muted-foreground/50"
+                  placeholder="your@email.com"
+                />
+              </div>
             </div>
 
             <div>
@@ -150,20 +174,30 @@ export function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows={5}
-                className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
-                placeholder="Your message..."
+                rows={6}
+                className="w-full px-4 py-3 border border-border/50 rounded-xl bg-background/60 dark:bg-background/40 text-foreground focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all duration-300 resize-none backdrop-blur-sm placeholder:text-muted-foreground/50"
+                placeholder="Tell me about your project..."
               ></textarea>
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.01, y: -1 }}
+              whileTap={{ scale: 0.99 }}
               type="submit"
-              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+              disabled={submitted}
+              className="w-full px-6 py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 flex items-center justify-center gap-2.5 disabled:opacity-70"
             >
-              <Send className="w-4 h-4" />
-              {submitted ? "Message Sent!" : "Send Message"}
+              {submitted ? (
+                <>
+                  <CheckCircle className="w-4 h-4" />
+                  Message Sent!
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </>
+              )}
             </motion.button>
           </motion.form>
         </div>

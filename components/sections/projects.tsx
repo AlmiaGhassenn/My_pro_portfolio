@@ -2,86 +2,81 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink, X, ArrowUpRight } from "lucide-react";
 import { portfolioData } from "@/lib/constants";
 
 export function Projects() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 },
-    },
-  };
-
   return (
-    <section id="projects" className="py-20 px-4">
+    <section id="projects" className="py-24 px-4 relative">
+      {/* Top border gradient */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
       <div className="max-w-6xl mx-auto">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
+          className="mb-16"
         >
-          <h2 className="text-4xl font-bold mb-12 text-foreground">Featured Projects</h2>
+          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">Portfolio</span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">
+            Featured Projects
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mt-4" />
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-8"
-        >
-          {portfolioData.projects.map((project) => (
+        <div className="grid md:grid-cols-2 gap-8">
+          {portfolioData.projects.map((project, index) => (
             <motion.div
               key={project.id}
-              variants={itemVariants}
-              whileHover={{
-                y: -20,
-                scale: 1.05,
-                boxShadow: "0 25px 50px rgba(0,0,0,0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20
-              }}
-              className="group bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-colors cursor-pointer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.15, duration: 0.6 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -6 }}
+              className="group relative bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer"
               onClick={() => setSelectedProject(project.id)}
             >
-              <div className="overflow-hidden h-48 bg-secondary">
+              {/* Image with gradient overlay */}
+              <div className="relative overflow-hidden h-52">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileHover={{ scale: 1.1 }}
+                    className="w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg"
+                  >
+                    <ArrowUpRight className="w-5 h-5 text-primary" />
+                  </motion.div>
+                </div>
               </div>
 
+              {/* Content */}
               <div className="p-6">
-                <h3 className="text-2xl font-bold mb-2 text-foreground">{project.title}</h3>
-                <p className="text-muted-foreground mb-4">{project.description}</p>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 mt-1" />
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{project.description}</p>
 
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full"
+                      className="px-3 py-1 text-xs font-medium bg-primary/8 text-primary/80 rounded-full border border-primary/10"
                     >
                       {tag}
                     </span>
@@ -90,17 +85,23 @@ export function Projects() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Modal with iframe */}
       {selectedProject && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
           onClick={() => setSelectedProject(null)}
         >
-          <div
-            className="relative w-[90vw] h-[90vh] bg-background border border-border rounded-lg overflow-hidden"
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-[92vw] h-[90vh] bg-background border border-border rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-4 right-4 z-20 flex gap-2">
@@ -108,16 +109,16 @@ export function Projects() {
                 href={portfolioData.projects.find(p => p.id === selectedProject)?.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
+                className="p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-xl hover:bg-secondary transition-colors"
                 title="Open in new tab"
               >
-                <ExternalLink className="w-5 h-5" />
+                <ExternalLink className="w-4 h-4" />
               </a>
               <button
                 onClick={() => setSelectedProject(null)}
-                className="p-2 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
+                className="p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-xl hover:bg-secondary transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -127,8 +128,8 @@ export function Projects() {
               title={portfolioData.projects.find(p => p.id === selectedProject)?.title}
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </section>
   );
