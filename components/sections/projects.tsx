@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 import { portfolioData } from "@/lib/constants";
 
 export function Projects() {
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -59,7 +62,8 @@ export function Projects() {
                 stiffness: 300,
                 damping: 20
               }}
-              className="group bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-colors"
+              className="group bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-colors cursor-pointer"
+              onClick={() => setSelectedProject(project.id)}
             >
               <div className="overflow-hidden h-48 bg-secondary">
                 <img
@@ -83,32 +87,49 @@ export function Projects() {
                     </span>
                   ))}
                 </div>
-
-                <div className="flex gap-3">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
-                  >
-                    <Github className="w-4 h-4" />
-                    Code
-                  </a>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-secondary transition-colors"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Live Demo
-                  </a>
-                </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Modal with iframe */}
+      {selectedProject && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div
+            className="relative w-[90vw] h-[90vh] bg-background border border-border rounded-lg overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute top-4 right-4 z-20 flex gap-2">
+              <a
+                href={portfolioData.projects.find(p => p.id === selectedProject)?.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
+                title="Open in new tab"
+              >
+                <ExternalLink className="w-5 h-5" />
+              </a>
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="p-2 bg-card border border-border rounded-full hover:bg-secondary transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <iframe
+              src={portfolioData.projects.find(p => p.id === selectedProject)?.link}
+              className="w-full h-full border-0"
+              title={portfolioData.projects.find(p => p.id === selectedProject)?.title}
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

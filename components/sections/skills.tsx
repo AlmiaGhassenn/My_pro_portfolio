@@ -62,7 +62,7 @@ export function Skills() {
                       whileHover={{
                         scale: 1.1,
                         x: 15,
-                        rotate: [0, 10, -10, 0]
+                        rotate: 10
                       }}
                       transition={{
                         type: "spring",
