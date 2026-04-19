@@ -1,5 +1,6 @@
 'use client'
 
+import { LanguageProvider } from '@/lib/i18n'
 import { Navbar } from '@/components/navbar'
 import { Hero } from '@/components/sections/hero'
 import { About } from '@/components/sections/about'
@@ -12,16 +13,18 @@ import { BackToTop } from '@/components/back-to-top'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Contact />
-      <Footer />
-      <BackToTop />
-    </main>
+    <LanguageProvider>
+      <main className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Contact />
+        <Footer />
+        <BackToTop />
+      </main>
+    </LanguageProvider>
   )
 }

@@ -4,17 +4,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, X, ArrowUpRight } from "lucide-react";
 import { portfolioData } from "@/lib/constants";
+import { useLanguage } from "@/lib/i18n";
 
 export function Projects() {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   return (
     <section id="projects" className="py-24 px-4 relative">
-      {/* Top border gradient */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="max-w-6xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -22,73 +22,67 @@ export function Projects() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">Portfolio</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">
-            Featured Projects
-          </h2>
+          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">{t.projects.label}</span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">{t.projects.title}</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mt-4" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {portfolioData.projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.15, duration: 0.6 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -6 }}
-              className="group relative bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer"
-              onClick={() => setSelectedProject(project.id)}
-            >
-              {/* Image with gradient overlay */}
-              <div className="relative overflow-hidden h-52">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileHover={{ scale: 1.1 }}
-                    className="w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg"
-                  >
-                    <ArrowUpRight className="w-5 h-5 text-primary" />
-                  </motion.div>
+          {portfolioData.projects.map((project, index) => {
+            const projectT = t.data.projects[project.id as keyof typeof t.data.projects];
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.15, duration: 0.6 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -6 }}
+                className="group relative bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer"
+                onClick={() => setSelectedProject(project.id)}
+              >
+                <div className="relative overflow-hidden h-52">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
+                      <ArrowUpRight className="w-5 h-5 text-primary" />
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 mt-1" />
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{project.description}</p>
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all duration-300 flex-shrink-0 mt-1" />
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {projectT?.description || project.description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 text-xs font-medium bg-primary/8 text-primary/80 rounded-full border border-primary/10"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 text-xs font-medium bg-primary/8 text-primary/80 rounded-full border border-primary/10"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Modal with iframe */}
       {selectedProject && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -110,7 +104,7 @@ export function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2.5 bg-card/90 backdrop-blur-sm border border-border rounded-xl hover:bg-secondary transition-colors"
-                title="Open in new tab"
+                title={t.projects.openNewTab}
               >
                 <ExternalLink className="w-4 h-4" />
               </a>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { portfolioData } from "@/lib/constants";
+import { useLanguage } from "@/lib/i18n";
 
 const categoryColors: Record<string, string> = {
   "Frontend": "from-blue-500 to-cyan-400",
@@ -18,16 +19,16 @@ const categoryAccents: Record<string, string> = {
 };
 
 export function Skills() {
+  const { t } = useLanguage();
+
   return (
     <section id="skills" className="py-24 px-4 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/40 via-transparent to-secondary/40 dark:from-secondary/15 dark:via-transparent dark:to-secondary/15" />
       </div>
 
       <div className="max-w-6xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,54 +36,53 @@ export function Skills() {
           viewport={{ once: true }}
           className="mb-16"
         >
-          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">Expertise</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">
-            Skills & Technologies
-          </h2>
+          <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">{t.skills.label}</span>
+          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">{t.skills.title}</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mt-4" />
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {Object.entries(portfolioData.skills).map(([category, skills], catIndex) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: catIndex * 0.1, duration: 0.6 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -4 }}
-              className="group p-6 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/20 transition-all duration-500 backdrop-blur-sm"
-            >
-              {/* Category header */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className={`w-1.5 h-8 rounded-full bg-gradient-to-b ${categoryColors[category] || "from-primary to-accent"}`} />
-                <h3 className="text-lg font-bold text-foreground">{category}</h3>
-              </div>
+          {Object.entries(portfolioData.skills).map(([category, skills], catIndex) => {
+            const translatedCategory = t.data.skillCategories[category as keyof typeof t.data.skillCategories] || category;
+            return (
+              <motion.div
+                key={category}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: catIndex * 0.1, duration: 0.6 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+                className="group p-6 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/20 transition-all duration-500 backdrop-blur-sm"
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <div className={`w-1.5 h-8 rounded-full bg-gradient-to-b ${categoryColors[category] || "from-primary to-accent"}`} />
+                  <h3 className="text-lg font-bold text-foreground">{translatedCategory}</h3>
+                </div>
 
-              {/* Skills list */}
-              <div className="space-y-2.5">
-                {skills.map((skill, index) => (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: catIndex * 0.1 + index * 0.05, duration: 0.4 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 4 }}
-                    className="transition-all duration-200"
-                  >
-                    <span
-                      className={`inline-block px-3 py-1.5 text-sm font-medium rounded-lg border ${
-                        categoryAccents[category] || "bg-primary/10 text-primary border-primary/20"
-                      } transition-all duration-300 hover:scale-105`}
+                <div className="space-y-2.5">
+                  {skills.map((skill, index) => (
+                    <motion.div
+                      key={skill}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: catIndex * 0.1 + index * 0.05, duration: 0.4 }}
+                      viewport={{ once: true }}
+                      whileHover={{ x: 4 }}
+                      className="transition-all duration-200"
                     >
-                      {skill}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                      <span
+                        className={`inline-block px-3 py-1.5 text-sm font-medium rounded-lg border ${
+                          categoryAccents[category] || "bg-primary/10 text-primary border-primary/20"
+                        } transition-all duration-300 hover:scale-105`}
+                      >
+                        {skill}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

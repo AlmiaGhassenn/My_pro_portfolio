@@ -6,13 +6,15 @@ import { motion } from "framer-motion";
 import { ChevronDown, ArrowRight, Download } from "lucide-react";
 import { portfolioData } from "@/lib/constants";
 import { FloatingIcons } from "@/components/floating-icons";
-
-const roles = ["Full Stack Developer", "React Specialist", "UI/UX Enthusiast", "Next.js Developer"];
+import { useLanguage } from "@/lib/i18n";
 
 export function Hero() {
+  const { t } = useLanguage();
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const roles = t.hero.roles as unknown as string[];
 
   useEffect(() => {
     const currentRole = roles[roleIndex];
@@ -37,7 +39,14 @@ export function Hero() {
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, roleIndex]);
+  }, [displayText, isDeleting, roleIndex, roles]);
+
+  // Reset typing when language changes
+  useEffect(() => {
+    setDisplayText("");
+    setRoleIndex(0);
+    setIsDeleting(false);
+  }, [t]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -69,7 +78,6 @@ export function Hero() {
           className="mb-8"
         >
           <div className="relative w-36 h-36 mx-auto group">
-            {/* Animated glow ring */}
             <motion.div
               className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-primary via-accent to-primary opacity-75 blur-sm group-hover:opacity-100 transition-opacity"
               animate={{ rotate: 360 }}
@@ -86,7 +94,6 @@ export function Hero() {
                 priority
               />
             </div>
-            {/* Status dot */}
             <div className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 rounded-full border-[3px] border-background">
               <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-40" />
             </div>
@@ -100,7 +107,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg text-muted-foreground mb-3 font-medium"
         >
-          Hello, I&apos;m
+          {t.hero.greeting}
         </motion.p>
 
         {/* Name */}
@@ -126,7 +133,7 @@ export function Hero() {
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-            className="inline-block w-[3px] h-7 bg-primary ml-1 rounded-full"
+            className="inline-block w-[3px] h-7 bg-primary ms-1 rounded-full"
           />
         </motion.div>
 
@@ -137,7 +144,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed"
         >
-          {portfolioData.tagline}
+          {t.data.tagline}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -153,8 +160,8 @@ export function Hero() {
             onClick={() => scrollToSection("projects")}
             className="group px-7 py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2"
           >
-            View My Work
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            {t.hero.viewWork}
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
@@ -162,7 +169,7 @@ export function Hero() {
             onClick={() => scrollToSection("contact")}
             className="px-7 py-3.5 border-2 border-primary/30 text-primary rounded-xl font-medium hover:border-primary/60 hover:bg-primary/5 backdrop-blur-sm transition-all duration-300"
           >
-            Get in Touch
+            {t.hero.getInTouch}
           </motion.button>
           <motion.a
             whileHover={{ scale: 1.03, y: -2 }}
@@ -172,7 +179,7 @@ export function Hero() {
             className="px-7 py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm transition-all duration-300 flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            Resume
+            {t.hero.resume}
           </motion.a>
         </motion.div>
 
@@ -189,7 +196,7 @@ export function Hero() {
             className="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-80 transition-opacity"
             onClick={() => scrollToSection("about")}
           >
-            <span className="text-xs font-medium tracking-widest uppercase text-muted-foreground">Scroll</span>
+            <span className="text-xs font-medium tracking-widest uppercase text-muted-foreground">{t.hero.scroll}</span>
             <ChevronDown className="w-5 h-5 text-muted-foreground" />
           </motion.div>
         </motion.div>
