@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun, Globe } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -19,6 +19,8 @@ const langNames: Record<Locale, string> = {
   ar: "العربية",
 };
 
+const sections = ["hero", "about", "projects", "skills", "experience", "contact"];
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,6 +29,12 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { locale, setLocale, t } = useLanguage();
+
+  // Refs to avoid re-creating scroll listener when menu state changes
+  const isOpenRef = useRef(isOpen);
+  const langMenuOpenRef = useRef(langMenuOpen);
+  isOpenRef.current = isOpen;
+  langMenuOpenRef.current = langMenuOpen;
 
   useEffect(() => {
     setMounted(true);
@@ -41,37 +49,47 @@ export function Navbar() {
     { name: t.nav.contact, href: "#contact" },
   ];
 
+  // Throttled scroll handler using rAF
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    let ticking = false;
 
-      const sections = ["hero", "about", "projects", "skills", "experience", "contact"];
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.getBoundingClientRect().top <= 120) {
-          setActiveSection(sections[i]);
-          break;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        setScrolled(scrollY > 50);
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const el = document.getElementById(sections[i]);
+          if (el && el.getBoundingClientRect().top <= 120) {
+            setActiveSection(sections[i]);
+            break;
+          }
         }
-      }
+        ticking = false;
+      });
     };
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Click outside handler (separate from scroll to avoid re-binds)
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isOpen && !(event.target as Element).closest(".mobile-menu")) {
+      if (isOpenRef.current && !(event.target as Element).closest(".mobile-menu")) {
         setIsOpen(false);
       }
-      if (langMenuOpen && !(event.target as Element).closest(".lang-menu")) {
+      if (langMenuOpenRef.current && !(event.target as Element).closest(".lang-menu")) {
         setLangMenuOpen(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, langMenuOpen]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);

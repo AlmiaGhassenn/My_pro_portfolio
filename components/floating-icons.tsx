@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
 
 /* ───────────────────── SVG Tech Icons ───────────────────── */
 const techIcons = [
@@ -116,16 +116,16 @@ const codeSnippets = [
 
 /* ─── Layout configs for icon cards ─── */
 const iconConfigs = [
-  { x: "6%",  y: "12%", size: 48, drift: "gentle",   layer: 3 },
-  { x: "88%", y: "6%",  size: 42, drift: "slow",     layer: 2 },
-  { x: "12%", y: "72%", size: 38, drift: "bob",      layer: 1 },
-  { x: "82%", y: "68%", size: 44, drift: "gentle",   layer: 3 },
-  { x: "48%", y: "4%",  size: 46, drift: "slow",     layer: 2 },
-  { x: "93%", y: "38%", size: 36, drift: "bob",      layer: 1 },
-  { x: "4%",  y: "42%", size: 40, drift: "gentle",   layer: 2 },
-  { x: "72%", y: "82%", size: 34, drift: "slow",     layer: 1 },
-  { x: "30%", y: "86%", size: 40, drift: "bob",      layer: 2 },
-  { x: "65%", y: "18%", size: 38, drift: "gentle",   layer: 3 },
+  { x: "6%",  y: "12%", size: 48 },
+  { x: "88%", y: "6%",  size: 42 },
+  { x: "12%", y: "72%", size: 38 },
+  { x: "82%", y: "68%", size: 44 },
+  { x: "48%", y: "4%",  size: 46 },
+  { x: "93%", y: "38%", size: 36 },
+  { x: "4%",  y: "42%", size: 40 },
+  { x: "72%", y: "82%", size: 34 },
+  { x: "30%", y: "86%", size: 40 },
+  { x: "65%", y: "18%", size: 38 },
 ];
 
 /* ─── Layout configs for code snippets ─── */
@@ -140,29 +140,7 @@ const snippetConfigs = [
   { x: "68%", y: "42%",  rotation: 11 },
 ];
 
-/* ─── Drift animation presets ─── */
-const driftAnimations: Record<string, { y: number[]; x: number[]; rotate: number[]; duration: number }> = {
-  gentle: {
-    y: [0, -18, 8, -12, 0],
-    x: [0, 10, -6, 8, 0],
-    rotate: [0, 6, -4, 3, 0],
-    duration: 16,
-  },
-  slow: {
-    y: [0, -10, 15, -8, 0],
-    x: [0, -12, 5, -8, 0],
-    rotate: [0, -8, 5, -3, 0],
-    duration: 22,
-  },
-  bob: {
-    y: [0, -25, 3, -18, 0],
-    x: [0, 5, -10, 7, 0],
-    rotate: [0, 10, -6, 8, 0],
-    duration: 14,
-  },
-};
-
-/* ─── Small particles / dots ─── */
+/* ─── Reduced particles (8 instead of 16) ─── */
 const particles = [
   { x: "15%", y: "30%", size: 4, color: "#61DAFB", dur: 8 },
   { x: "80%", y: "25%", size: 3, color: "#F7DF1E", dur: 10 },
@@ -172,25 +150,67 @@ const particles = [
   { x: "10%", y: "85%", size: 3, color: "#06B6D4", dur: 11 },
   { x: "70%", y: "10%", size: 4, color: "#A259FF", dur: 8 },
   { x: "45%", y: "35%", size: 3, color: "#F05032", dur: 13 },
-  { x: "25%", y: "65%", size: 4, color: "#61DAFB", dur: 10 },
-  { x: "60%", y: "55%", size: 3, color: "#F7DF1E", dur: 9 },
-  { x: "38%", y: "15%", size: 4, color: "#1572B6", dur: 11 },
-  { x: "78%", y: "88%", size: 3, color: "#E34F26", dur: 7 },
-  { x: "50%", y: "45%", size: 5, color: "#3178C6", dur: 14 },
-  { x: "5%",  y: "22%", size: 3, color: "#339933", dur: 10 },
-  { x: "95%", y: "75%", size: 4, color: "#06B6D4", dur: 8 },
-  { x: "42%", y: "82%", size: 3, color: "#A259FF", dur: 12 },
 ];
 
 /* ═══════════════════════ COMPONENT ═══════════════════════ */
 
-export function FloatingIcons() {
+export const FloatingIcons = memo(function FloatingIcons() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 1 }} aria-hidden="true">
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      style={{ zIndex: 1, contain: "layout style paint" }}
+      aria-hidden="true"
+    >
+      {/* Inline keyframes for all CSS animations */}
+      <style>{`
+        @keyframes float-particle {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+          25% { transform: translate3d(10px, -20px, 0) scale(1.3); opacity: 0.6; }
+          50% { transform: translate3d(-5px, 5px, 0) scale(0.9); opacity: 0.2; }
+          75% { transform: translate3d(8px, -15px, 0) scale(1.2); opacity: 0.5; }
+        }
+        @keyframes float-icon-a {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+          25% { transform: translate3d(8px, -14px, 0) rotate(4deg); }
+          50% { transform: translate3d(-4px, 6px, 0) rotate(-3deg); }
+          75% { transform: translate3d(6px, -10px, 0) rotate(2deg); }
+        }
+        @keyframes float-icon-b {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+          25% { transform: translate3d(-8px, -8px, 0) rotate(-5deg); }
+          50% { transform: translate3d(4px, 10px, 0) rotate(3deg); }
+          75% { transform: translate3d(-6px, -6px, 0) rotate(-2deg); }
+        }
+        @keyframes float-icon-c {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+          25% { transform: translate3d(4px, -18px, 0) rotate(6deg); }
+          50% { transform: translate3d(-7px, 2px, 0) rotate(-4deg); }
+          75% { transform: translate3d(5px, -12px, 0) rotate(5deg); }
+        }
+        @keyframes float-snippet {
+          0%, 100% { transform: translate3d(0, 0, 0); opacity: 0; }
+          15% { opacity: 0.35; }
+          35% { transform: translate3d(6px, -12px, 0); opacity: 0.15; }
+          65% { transform: translate3d(-4px, 4px, 0); opacity: 0.3; }
+          85% { opacity: 0.1; }
+        }
+        @keyframes line-pulse {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.7; }
+        }
+        @keyframes label-pulse {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
+        }
+        @keyframes fade-in-icon {
+          from { opacity: 0; transform: scale(0.5); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
 
-      {/* ── Layer 1: Glowing particles ── */}
+      {/* ── Layer 1: Glowing particles (CSS animated) ── */}
       {particles.map((p, i) => (
-        <motion.div
+        <div
           key={`particle-${i}`}
           className="absolute rounded-full"
           style={{
@@ -200,58 +220,38 @@ export function FloatingIcons() {
             height: p.size,
             backgroundColor: p.color,
             boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}40`,
-          }}
-          animate={{
-            y: [0, -30, 10, -20, 0],
-            x: [0, 15, -10, 8, 0],
-            opacity: [0.3, 0.7, 0.2, 0.6, 0.3],
-            scale: [1, 1.5, 0.8, 1.3, 1],
-          }}
-          transition={{
-            duration: p.dur,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.4,
+            animation: `float-particle ${p.dur}s ease-in-out infinite`,
+            animationDelay: `${i * 0.5}s`,
+            willChange: "transform, opacity",
           }}
         />
       ))}
 
-      {/* ── Layer 2: Tech icon cards with frosted glass & glow ── */}
+      {/* ── Layer 2: Tech icon cards (CSS animated, no backdrop-blur) ── */}
       {techIcons.map((icon, i) => {
         const config = iconConfigs[i];
-        const drift = driftAnimations[config.drift];
+        const anims = ["float-icon-a", "float-icon-b", "float-icon-c"];
+        const animName = anims[i % 3];
+        const duration = 14 + (i % 3) * 4;
         return (
-          <motion.div
+          <div
             key={icon.name}
             className="absolute"
             style={{
               left: config.x,
               top: config.y,
-            }}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: drift.y,
-              x: drift.x,
-              rotate: drift.rotate,
-            }}
-            transition={{
-              opacity: { duration: 1, delay: i * 0.15 },
-              scale: { duration: 1, delay: i * 0.15 },
-              y: { duration: drift.duration, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 },
-              x: { duration: drift.duration * 1.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 },
-              rotate: { duration: drift.duration * 0.9, repeat: Infinity, ease: "easeInOut", delay: i * 0.7 },
+              animation: `fade-in-icon 0.8s ease-out ${i * 0.15}s both, ${animName} ${duration}s ease-in-out ${i * 0.5}s infinite`,
+              willChange: "transform",
             }}
           >
             {/* Glow backdrop */}
             <div
-              className="absolute -inset-3 rounded-2xl blur-xl opacity-20 dark:opacity-15"
-              style={{ backgroundColor: icon.glow }}
+              className="absolute -inset-3 rounded-2xl opacity-20 dark:opacity-15"
+              style={{ backgroundColor: icon.glow, filter: "blur(16px)" }}
             />
-            {/* Glass card */}
+            {/* Glass card — removed backdrop-blur for perf */}
             <div
-              className="relative rounded-xl border border-white/20 dark:border-white/10 backdrop-blur-sm p-2.5"
+              className="relative rounded-xl border border-white/20 dark:border-white/10 p-2.5"
               style={{
                 width: config.size + 20,
                 height: config.size + 20,
@@ -264,51 +264,41 @@ export function FloatingIcons() {
               </div>
             </div>
             {/* Label */}
-            <motion.p
+            <p
               className="text-center mt-1"
               style={{
                 fontSize: "9px",
                 letterSpacing: "0.05em",
                 color: icon.glow,
-                opacity: 0.5,
                 fontFamily: "monospace",
+                animation: `label-pulse 4s ease-in-out infinite`,
+                animationDelay: `${i * 0.3}s`,
               }}
-              animate={{ opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               {icon.name}
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
         );
       })}
 
-      {/* ── Layer 3: Floating code snippets ── */}
+      {/* ── Layer 3: Floating code snippets (CSS animated) ── */}
       {codeSnippets.map((snippet, i) => {
         const config = snippetConfigs[i];
         return (
-          <motion.div
+          <div
             key={`snippet-${i}`}
             className="absolute"
             style={{
               left: config.x,
               top: config.y,
-              rotate: `${config.rotation}deg`,
-            }}
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: [0, 0.4, 0.15, 0.35, 0],
-              y: [0, -15, 5, -10, 0],
-              x: [0, 8, -5, 6, 0],
-            }}
-            transition={{
-              duration: 12 + i * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 1.5,
+              transform: `rotate(${config.rotation}deg)`,
+              animation: `float-snippet ${12 + i * 2}s ease-in-out infinite`,
+              animationDelay: `${i * 1.5}s`,
+              willChange: "transform, opacity",
             }}
           >
             <span
-              className="font-mono text-xs font-medium px-2 py-1 rounded-md border backdrop-blur-sm"
+              className="font-mono text-xs font-medium px-2 py-1 rounded-md border"
               style={{
                 color: snippet.color,
                 borderColor: `${snippet.color}30`,
@@ -319,43 +309,38 @@ export function FloatingIcons() {
             >
               {snippet.text}
             </span>
-          </motion.div>
+          </div>
         );
       })}
 
-      {/* ── Layer 4: Connecting lines / constellations ── */}
+      {/* ── Layer 4: Connecting lines / constellations (CSS animated) ── */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04] dark:opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-        <motion.line
+        <line
           x1="6%" y1="12%" x2="48%" y2="4%"
           stroke="currentColor" strokeWidth="1" strokeDasharray="6 8"
-          animate={{ opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 6, repeat: Infinity }}
+          style={{ animation: "line-pulse 6s ease-in-out infinite" }}
         />
-        <motion.line
+        <line
           x1="88%" y1="6%" x2="65%" y2="18%"
           stroke="currentColor" strokeWidth="1" strokeDasharray="6 8"
-          animate={{ opacity: [0.5, 0.2, 0.5] }}
-          transition={{ duration: 8, repeat: Infinity }}
+          style={{ animation: "line-pulse 8s ease-in-out infinite", animationDelay: "1s" }}
         />
-        <motion.line
+        <line
           x1="4%" y1="42%" x2="12%" y2="72%"
           stroke="currentColor" strokeWidth="1" strokeDasharray="6 8"
-          animate={{ opacity: [0.2, 0.6, 0.2] }}
-          transition={{ duration: 7, repeat: Infinity }}
+          style={{ animation: "line-pulse 7s ease-in-out infinite", animationDelay: "2s" }}
         />
-        <motion.line
+        <line
           x1="82%" y1="68%" x2="72%" y2="82%"
           stroke="currentColor" strokeWidth="1" strokeDasharray="6 8"
-          animate={{ opacity: [0.4, 0.7, 0.4] }}
-          transition={{ duration: 9, repeat: Infinity }}
+          style={{ animation: "line-pulse 9s ease-in-out infinite", animationDelay: "0.5s" }}
         />
-        <motion.line
+        <line
           x1="93%" y1="38%" x2="82%" y2="68%"
           stroke="currentColor" strokeWidth="1" strokeDasharray="6 8"
-          animate={{ opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 5, repeat: Infinity }}
+          style={{ animation: "line-pulse 5s ease-in-out infinite", animationDelay: "1.5s" }}
         />
       </svg>
     </div>
   );
-}
+});

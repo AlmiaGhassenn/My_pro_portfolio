@@ -61,23 +61,18 @@ export function Skills() {
 
                 <div className="space-y-2.5">
                   {skills.map((skill, index) => (
-                    <motion.div
+                    <div
                       key={skill}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: catIndex * 0.1 + index * 0.05, duration: 0.4 }}
-                      viewport={{ once: true }}
-                      whileHover={{ x: 4 }}
-                      className="transition-all duration-200"
+                      className="transition-transform duration-200 hover:translate-x-1"
                     >
                       <span
                         className={`inline-block px-3 py-1.5 text-sm font-medium rounded-lg border ${
                           categoryAccents[category] || "bg-primary/10 text-primary border-primary/20"
-                        } transition-all duration-300 hover:scale-105`}
+                        } transition-transform duration-300 hover:scale-105`}
                       >
                         {skill}
                       </span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </motion.div>

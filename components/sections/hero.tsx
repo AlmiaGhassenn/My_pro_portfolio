@@ -59,11 +59,11 @@ export function Hero() {
       className="min-h-screen flex items-center justify-center px-4 pt-20 relative overflow-hidden"
       suppressHydrationWarning
     >
-      {/* Background gradient orbs */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] dark:bg-primary/5" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px] dark:bg-accent/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
+      {/* Background gradient orbs — GPU-promoted with reduced blur */}
+      <div className="absolute inset-0 -z-10" style={{ contain: "strict" }}>
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[80px] dark:bg-primary/5" style={{ willChange: "transform" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[80px] dark:bg-accent/5" style={{ willChange: "transform" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[80px]" style={{ willChange: "transform" }} />
       </div>
 
       {/* Floating tech icons */}

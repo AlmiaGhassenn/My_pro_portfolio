@@ -122,9 +122,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    scroll-behavior: smooth;
-  }
   ::selection {
     background-color: oklch(0.7 0.25 300 / 0.25);
     color: inherit;
