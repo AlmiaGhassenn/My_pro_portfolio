@@ -11,7 +11,7 @@ export function Projects() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   return (
-    <section id="projects" className="py-24 px-4 relative">
+    <section id="projects" className="py-16 sm:py-24 px-4 sm:px-6 relative">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="max-w-6xl mx-auto">
@@ -20,14 +20,14 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className="mb-10 sm:mb-16"
         >
           <span className="text-primary font-mono text-sm font-medium tracking-wider uppercase">{t.projects.label}</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 text-foreground">{t.projects.title}</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 text-foreground">{t.projects.title}</h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mt-4" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
           {portfolioData.projects.map((project, index) => {
             const projectT = t.data.projects[project.id as keyof typeof t.data.projects];
             return (
@@ -41,7 +41,7 @@ export function Projects() {
                 className="group relative bg-card border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer"
                 onClick={() => setSelectedProject(project.id)}
               >
-                <div className="relative overflow-hidden h-52">
+                <div className="relative overflow-hidden h-40 sm:h-52">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -55,7 +55,7 @@ export function Projects() {
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                       {project.title}
@@ -95,7 +95,7 @@ export function Projects() {
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="relative w-[92vw] h-[90vh] bg-background border border-border rounded-2xl overflow-hidden shadow-2xl"
+            className="relative w-[96vw] sm:w-[92vw] h-[85vh] sm:h-[90vh] bg-background border border-border rounded-2xl overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute top-4 right-4 z-20 flex gap-2">

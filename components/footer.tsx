@@ -10,7 +10,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-background py-12 px-4">
+    <footer className="relative bg-background py-8 sm:py-12 px-4 sm:px-6">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="max-w-6xl mx-auto">
@@ -22,13 +22,13 @@ export function Footer() {
           className="flex flex-col items-center gap-8"
         >
           <div className="text-center">
-            <p className="text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-1">
+            <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-1">
               {portfolioData.name}
             </p>
             <p className="text-muted-foreground text-sm">{t.data.title}</p>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-2 sm:gap-4 flex-wrap justify-center">
             {portfolioData.socials.map((social) => (
               <motion.a
                 key={social.name}
@@ -37,7 +37,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-5 py-2 rounded-lg text-sm font-medium text-muted-foreground bg-card border border-border/50 hover:border-primary/30 hover:text-primary transition-all duration-300"
+                className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground bg-card border border-border/50 hover:border-primary/30 hover:text-primary transition-all duration-300"
               >
                 {social.name}
               </motion.a>

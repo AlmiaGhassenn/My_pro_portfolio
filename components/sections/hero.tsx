@@ -56,20 +56,20 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center px-4 pt-20 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20 relative overflow-hidden"
       suppressHydrationWarning
     >
       {/* Background gradient orbs — GPU-promoted with reduced blur */}
       <div className="absolute inset-0 -z-10" style={{ contain: "strict" }}>
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[80px] dark:bg-primary/5" style={{ willChange: "transform" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[80px] dark:bg-accent/5" style={{ willChange: "transform" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[80px]" style={{ willChange: "transform" }} />
+        <div className="absolute top-1/4 left-1/4 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-primary/10 rounded-full blur-[60px] sm:blur-[80px] dark:bg-primary/5" style={{ willChange: "transform" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] bg-accent/10 rounded-full blur-[60px] sm:blur-[80px] dark:bg-accent/5" style={{ willChange: "transform" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[450px] sm:h-[450px] md:w-[600px] md:h-[600px] bg-primary/5 rounded-full blur-[60px] sm:blur-[80px]" style={{ willChange: "transform" }} />
       </div>
 
       {/* Floating tech icons */}
       <FloatingIcons />
 
-      <div className="text-center max-w-3xl mx-auto relative z-10">
+      <div className="text-center max-w-3xl mx-auto relative z-10 w-full">
         {/* Profile image with animated ring */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -77,7 +77,7 @@ export function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-8"
         >
-          <div className="relative w-36 h-36 mx-auto group">
+          <div className="relative w-28 h-28 sm:w-36 sm:h-36 mx-auto group">
             <motion.div
               className="absolute -inset-1.5 rounded-full bg-gradient-to-r from-primary via-accent to-primary opacity-75 blur-sm group-hover:opacity-100 transition-opacity"
               animate={{ rotate: 360 }}
@@ -115,7 +115,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-5xl md:text-7xl font-bold mb-4"
+          className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4"
         >
           <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] bg-clip-text text-transparent animate-[gradient_3s_linear_infinite]">
             {portfolioData.name}
@@ -127,7 +127,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-xl md:text-2xl text-primary mb-6 font-semibold h-9 flex items-center justify-center"
+          className="text-base sm:text-xl md:text-2xl text-primary mb-6 font-semibold h-8 sm:h-9 flex items-center justify-center"
         >
           <span>{displayText}</span>
           <motion.span
@@ -142,7 +142,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed"
+          className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed px-2 sm:px-0"
         >
           {t.data.tagline}
         </motion.p>
@@ -152,13 +152,13 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex gap-4 justify-center flex-wrap"
+          className="flex gap-3 sm:gap-4 justify-center flex-wrap px-2 sm:px-0"
         >
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => scrollToSection("projects")}
-            className="group px-7 py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2"
+            className="group px-5 sm:px-7 py-3 sm:py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
           >
             {t.hero.viewWork}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
@@ -167,7 +167,7 @@ export function Hero() {
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => scrollToSection("contact")}
-            className="px-7 py-3.5 border-2 border-primary/30 text-primary rounded-xl font-medium hover:border-primary/60 hover:bg-primary/5 backdrop-blur-sm transition-all duration-300"
+            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-primary/30 text-primary rounded-xl font-medium hover:border-primary/60 hover:bg-primary/5 backdrop-blur-sm transition-all duration-300 text-sm sm:text-base"
           >
             {t.hero.getInTouch}
           </motion.button>
@@ -176,7 +176,7 @@ export function Hero() {
             whileTap={{ scale: 0.98 }}
             href={portfolioData.resume}
             download
-            className="px-7 py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm transition-all duration-300 flex items-center gap-2"
+            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
           >
             <Download className="w-4 h-4" />
             {t.hero.resume}
@@ -188,7 +188,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="mt-20"
+          className="mt-12 sm:mt-20"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}

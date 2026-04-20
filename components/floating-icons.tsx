@@ -157,7 +157,7 @@ const particles = [
 export const FloatingIcons = memo(function FloatingIcons() {
   return (
     <div
-      className="absolute inset-0 overflow-hidden pointer-events-none"
+      className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block"
       style={{ zIndex: 1, contain: "layout style paint" }}
       aria-hidden="true"
     >
