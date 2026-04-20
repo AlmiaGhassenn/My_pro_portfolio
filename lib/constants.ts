@@ -21,11 +21,11 @@ export const portfolioData = {
    projects: [
      {
        id: 1,
-       title: "Comachem",
-       description: "Landing page for MDF - Professional and modern design showcasing company services.",
+       title: "Taxiks",
+       description: "website for a vtc company in france that provides vip services to its customers",
        tags: ["Next.js", "TypeScript", "Responsive Design", "SEO"],
-       link: "https://comachem.com",
-       image: "/comachem.png",
+       link: "https://taxiks.com",
+       image: "/taxiks.png",
      },
      {
        id: 2,
