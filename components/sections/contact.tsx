@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Send, CheckCircle, ArrowUpRight } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { portfolioData } from "@/lib/constants";
 import { useLanguage } from "@/lib/i18n";
 
@@ -13,20 +14,93 @@ export function Contact() {
     email: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
+    setSubmitStatus(null);
+    setSubmitError(null);
+    setIsSubmitting(true);
+    const siteUrl = typeof window !== "undefined" ? window.location.origin : "";
+    const logoUrl = siteUrl ? `${siteUrl}/ga-icon.svg` : "";
+    const githubUrl = portfolioData.socials.find((social) => social.name === "GitHub")?.url ?? "";
+    const linkedInUrl = portfolioData.socials.find((social) => social.name === "LinkedIn")?.url ?? "";
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSubmitStatus("error");
+      setSubmitError("Email service is not configured.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          // Include common EmailJS variable names to match different template setups.
+          name: formData.name,
+          email: formData.email,
+          user_name: formData.name,
+          user_email: formData.email,
+          user_message: formData.message,
+          contact_message: formData.message,
+          to_name: "Ghassen",
+          to_email: portfolioData.email,
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          message: formData.message,
+          logo_url: logoUrl,
+          portfolio_url: siteUrl,
+          github_url: githubUrl,
+          linkedin_url: linkedInUrl,
+        },
+        {
+          publicKey,
+        },
+      );
+
+      setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
-      setSubmitted(false);
-    }, 3000);
+    } catch (error: unknown) {
+      const details =
+        typeof error === "object" && error !== null
+          ? {
+              ...(error as Record<string, unknown>),
+              status: (error as { status?: unknown }).status,
+              text: (error as { text?: unknown }).text,
+            }
+          : { message: String(error) };
+
+      console.error("EmailJS send failed details:", details);
+
+      const errorText =
+        typeof details.text === "string" ? details.text : typeof details.message === "string" ? details.message : "";
+
+      if (errorText.includes("Invalid grant") || errorText.includes("reconnect your Gmail account")) {
+        setSubmitError("Email service is temporarily disconnected. Please try again later.");
+      } else if (errorText.length > 0) {
+        setSubmitError(errorText);
+      } else {
+        setSubmitError("Failed to send message. Please try again.");
+      }
+
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -180,10 +254,10 @@ export function Contact() {
               whileHover={{ scale: 1.01, y: -1 }}
               whileTap={{ scale: 0.99 }}
               type="submit"
-              disabled={submitted}
+              disabled={isSubmitting}
               className="w-full px-5 sm:px-6 py-3 sm:py-3.5 bg-primary text-primary-foreground rounded-lg sm:rounded-xl text-sm sm:text-base font-medium shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-2.5 disabled:opacity-70"
             >
-              {submitted ? (
+              {submitStatus === "success" ? (
                 <>
                   <CheckCircle className="w-4 h-4" />
                   {t.contact.sent}
@@ -191,10 +265,13 @@ export function Contact() {
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  {t.contact.send}
+                  {isSubmitting ? "Sending..." : t.contact.send}
                 </>
               )}
             </motion.button>
+            {submitStatus === "error" && (
+              <p className="text-sm text-destructive">{submitError ?? "Failed to send message. Please try again."}</p>
+            )}
           </motion.form>
         </div>
       </div>
