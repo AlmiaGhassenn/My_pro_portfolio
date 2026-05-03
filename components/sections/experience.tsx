@@ -49,10 +49,11 @@ export function Experience() {
                     </div>
                   </div>
 
-                  <motion.div
-                    whileHover={{ y: -3 }}
-                    className="group p-4 sm:p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500"
-                  >
+                   <motion.div
+                     whileHover={{ y: -3 }}
+                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                     className="group p-4 sm:p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5"
+                   >
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
                       <div>
                         <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-primary transition-colors">

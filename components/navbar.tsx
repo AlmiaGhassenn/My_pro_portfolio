@@ -122,14 +122,14 @@ export function Navbar() {
   }, []);
 
   return (
-    <motion.nav
+     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-50 ${
         scrolled
           ? "bg-background/70 backdrop-blur-xl border-b border-border/50 shadow-sm"
-          : "bg-transparent"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -180,8 +180,9 @@ export function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 onClick={() => setLangMenuOpen(!langMenuOpen)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-300 text-sm font-medium"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 text-sm font-medium"
                 aria-label="Change language"
               >
                 <Globe className="w-4 h-4 text-muted-foreground" />
@@ -219,13 +220,14 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Theme toggle */}
+             {/* Theme toggle */}
             {mounted && (
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-300"
+                className="p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? (
@@ -236,12 +238,12 @@ export function Navbar() {
               </motion.button>
             )}
 
-            {/* Mobile menu button */}
+             {/* Mobile menu button */}
             <motion.button
               ref={mobileToggleRef}
               whileTap={{ scale: 0.9 }}
               onClick={toggleMobileMenu}
-              className="md:hidden p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-300 relative z-[60]"
+              className="md:hidden p-2.5 rounded-xl bg-background/50 backdrop-blur-sm border border-border/30 hover:border-primary/30 relative z-[60]"
               aria-label="Toggle menu"
               aria-expanded={isOpen}
             >
@@ -301,13 +303,13 @@ export function Navbar() {
                 {navLinks.map((link, index) => {
                   const isActive = activeSection === link.href.replace("#", "");
                   return (
-                    <motion.button
+                     <motion.button
                       key={link.href}
                       initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.04, duration: 0.25 }}
                       onClick={() => scrollToSection(link.href)}
-                      className={`flex items-center w-full text-left px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-200 active:scale-[0.98] ${
+                      className={`flex items-center w-full text-left px-4 py-3.5 rounded-xl text-[15px] font-medium active:scale-[0.98] ${
                         isActive
                           ? "text-primary bg-primary/10 border border-primary/20"
                           : "text-foreground hover:text-primary hover:bg-primary/5 border border-transparent"
@@ -315,11 +317,7 @@ export function Navbar() {
                     >
                       {/* Active indicator dot */}
                       <span
-                        className={`w-1.5 h-1.5 rounded-full mr-3 transition-all duration-300 ${
-                          isActive
-                            ? "bg-primary scale-100"
-                            : "bg-muted-foreground/30 scale-75"
-                        }`}
+                        className={`w-1.5 h-1.5 rounded-full mr-3 ${isActive ? "bg-primary scale-100" : "bg-muted-foreground/30 scale-75"}`}
                       />
                       {link.name}
                     </motion.button>

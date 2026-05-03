@@ -147,7 +147,7 @@ export function Hero() {
           {t.data.tagline}
         </motion.p>
 
-        {/* CTA Buttons */}
+         {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,8 +157,9 @@ export function Hero() {
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             onClick={() => scrollToSection("projects")}
-            className="group px-5 sm:px-7 py-3 sm:py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
+            className="group px-5 sm:px-7 py-3 sm:py-3.5 bg-primary text-primary-foreground rounded-xl font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 flex items-center gap-2 text-sm sm:text-base"
           >
             {t.hero.viewWork}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
@@ -166,17 +167,19 @@ export function Hero() {
           <motion.button
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             onClick={() => scrollToSection("contact")}
-            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-primary/30 text-primary rounded-xl font-medium hover:border-primary/60 hover:bg-primary/5 backdrop-blur-sm transition-all duration-300 text-sm sm:text-base"
+            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-primary/30 text-primary rounded-xl font-medium hover:border-primary/60 hover:bg-primary/5 backdrop-blur-sm text-sm sm:text-base"
           >
             {t.hero.getInTouch}
           </motion.button>
           <motion.a
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
             href={portfolioData.resume}
             download
-            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm transition-all duration-300 flex items-center gap-2 text-sm sm:text-base"
+            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm flex items-center gap-2 text-sm sm:text-base"
           >
             <Download className="w-4 h-4" />
             {t.hero.resume}

@@ -129,6 +129,14 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @keyframes gradient {
   0% { background-position: 0% center; }
   50% { background-position: 100% center; }

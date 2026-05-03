@@ -77,13 +77,14 @@ export function About() {
             viewport={{ once: true }}
             className="md:col-span-2 space-y-3 sm:space-y-4"
           >
-            {/* Location card */}
+             {/* Location card */}
             <motion.div
               whileHover={{ y: -2 }}
-              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 backdrop-blur-sm"
             >
               <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 flex-shrink-0">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
                 <div>
@@ -96,17 +97,18 @@ export function About() {
             {/* Email card */}
             <motion.div
               whileHover={{ y: -2 }}
-              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 backdrop-blur-sm"
             >
               <div className="flex items-center gap-2.5 sm:gap-3">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 flex-shrink-0">
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{t.about.email}</p>
                   <a
                     href={`mailto:${portfolioData.email}`}
-                    className="text-sm sm:text-base text-foreground font-medium hover:text-primary transition-colors truncate block mt-0.5"
+                    className="text-sm sm:text-base text-foreground font-medium hover:text-primary truncate block mt-0.5"
                   >
                     {portfolioData.email}
                   </a>
@@ -117,7 +119,8 @@ export function About() {
             {/* Social links card */}
             <motion.div
               whileHover={{ y: -2 }}
-              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="group p-3.5 sm:p-5 rounded-xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 backdrop-blur-sm"
             >
               <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2.5 sm:mb-3">{t.about.connect}</p>
               <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -131,7 +134,8 @@ export function About() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-card border border-border/50 text-muted-foreground hover:text-primary hover:border-primary/30 transition-all duration-300"
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-card border border-border/50 text-muted-foreground hover:text-primary hover:border-primary/30"
                   >
                     {socialIcons[social.name] || <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />}
                     <span className="text-xs sm:text-sm font-medium">{social.name}</span>

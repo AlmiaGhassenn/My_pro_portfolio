@@ -45,15 +45,16 @@ export function Skills() {
           {Object.entries(portfolioData.skills).map(([category, skills], catIndex) => {
             const translatedCategory = t.data.skillCategories[category as keyof typeof t.data.skillCategories] || category;
             return (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: catIndex * 0.1, duration: 0.6 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -4 }}
-                className="group p-4 sm:p-6 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/20 transition-all duration-500 backdrop-blur-sm"
-              >
+               <motion.div
+                 key={category}
+                 initial={{ opacity: 0, y: 30 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 transition={{ delay: catIndex * 0.1, duration: 0.6 }}
+                 viewport={{ once: true }}
+                 whileHover={{ y: -4 }}
+                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                 className="group p-4 sm:p-6 rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/20 backdrop-blur-sm"
+               >
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-5">
                   <div className={`w-1.5 h-6 sm:h-8 rounded-full bg-gradient-to-b ${categoryColors[category] || "from-primary to-accent"}`} />
                   <h3 className="text-sm sm:text-lg font-bold text-foreground">{translatedCategory}</h3>

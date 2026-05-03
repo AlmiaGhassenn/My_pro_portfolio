@@ -162,51 +162,38 @@ export const FloatingIcons = memo(function FloatingIcons() {
       aria-hidden="true"
     >
       {/* Inline keyframes for all CSS animations */}
-      <style>{`
-        @keyframes float-particle {
-          0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
-          25% { transform: translate3d(10px, -20px, 0) scale(1.3); opacity: 0.6; }
-          50% { transform: translate3d(-5px, 5px, 0) scale(0.9); opacity: 0.2; }
-          75% { transform: translate3d(8px, -15px, 0) scale(1.2); opacity: 0.5; }
-        }
-        @keyframes float-icon-a {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-          25% { transform: translate3d(8px, -14px, 0) rotate(4deg); }
-          50% { transform: translate3d(-4px, 6px, 0) rotate(-3deg); }
-          75% { transform: translate3d(6px, -10px, 0) rotate(2deg); }
-        }
-        @keyframes float-icon-b {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-          25% { transform: translate3d(-8px, -8px, 0) rotate(-5deg); }
-          50% { transform: translate3d(4px, 10px, 0) rotate(3deg); }
-          75% { transform: translate3d(-6px, -6px, 0) rotate(-2deg); }
-        }
-        @keyframes float-icon-c {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-          25% { transform: translate3d(4px, -18px, 0) rotate(6deg); }
-          50% { transform: translate3d(-7px, 2px, 0) rotate(-4deg); }
-          75% { transform: translate3d(5px, -12px, 0) rotate(5deg); }
-        }
-        @keyframes float-snippet {
-          0%, 100% { transform: translate3d(0, 0, 0); opacity: 0; }
-          15% { opacity: 0.35; }
-          35% { transform: translate3d(6px, -12px, 0); opacity: 0.15; }
-          65% { transform: translate3d(-4px, 4px, 0); opacity: 0.3; }
-          85% { opacity: 0.1; }
-        }
-        @keyframes line-pulse {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.7; }
-        }
-        @keyframes label-pulse {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.6; }
-        }
-        @keyframes fade-in-icon {
-          from { opacity: 0; transform: scale(0.5); }
-          to { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
+        <style>{`
+          @media (prefers-reduced-motion: no-preference) {
+            @keyframes float-particle {
+              0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.25; }
+              50% { transform: translate3d(6px, -12px, 0) scale(1.15); opacity: 0.5; }
+            }
+            @keyframes float-icon-a {
+              0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+              50% { transform: translate3d(6px, -10px, 0) rotate(3deg); }
+            }
+            @keyframes float-icon-b {
+              0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+              50% { transform: translate3d(-6px, -8px, 0) rotate(-2deg); }
+            }
+            @keyframes float-icon-c {
+              0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+              50% { transform: translate3d(4px, -14px, 0) rotate(4deg); }
+            }
+            @keyframes float-snippet {
+              0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.15; }
+              50% { transform: translate3d(4px, -8px, 0); opacity: 0.35; }
+            }
+            @keyframes line-pulse {
+              0%, 100% { opacity: 0.25; }
+              50% { opacity: 0.5; }
+            }
+            @keyframes label-pulse {
+              0%, 100% { opacity: 0.35; }
+              50% { opacity: 0.65; }
+            }
+          }
+        `}</style>
 
       {/* ── Layer 1: Glowing particles (CSS animated) ── */}
       {particles.map((p, i) => (
@@ -249,7 +236,7 @@ export const FloatingIcons = memo(function FloatingIcons() {
               className="absolute -inset-3 rounded-2xl opacity-20 dark:opacity-15"
               style={{ backgroundColor: icon.glow, filter: "blur(16px)" }}
             />
-            {/* Glass card — removed backdrop-blur for perf */}
+            {/* Glass card */}
             <div
               className="relative rounded-xl border border-white/20 dark:border-white/10 p-2.5"
               style={{

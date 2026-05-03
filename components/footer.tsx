@@ -29,16 +29,17 @@ export function Footer() {
           </div>
 
           <div className="flex gap-2 sm:gap-4 flex-wrap justify-center">
-            {portfolioData.socials.map((social) => (
-              <motion.a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground bg-card border border-border/50 hover:border-primary/30 hover:text-primary transition-all duration-300"
-              >
+             {portfolioData.socials.map((social) => (
+               <motion.a
+                 key={social.name}
+                 href={social.url}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 whileHover={{ scale: 1.05, y: -2 }}
+                 whileTap={{ scale: 0.95 }}
+                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                 className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground bg-card border border-border/50 hover:border-primary/30 hover:text-primary"
+               >
                 {social.name}
               </motion.a>
             ))}
