@@ -56,9 +56,9 @@ export const portfolioData = {
   // Skills
   skills: {
     "Frontend": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    "Backend": ["Node.js", "Express", "Python", "PHP", "Laravel", "Symfony", "PostgreSQL", "MongoDB"],
+    "Backend": ["Nest.js", "PHP", "PostgreSQL", "MongoDB"],
     "CMS & Platforms": ["WordPress", "SEO", "WooCommerce"],
-    "Tools": ["Git", "Docker", "AWS", "Vercel", "Firebase"],
+    "Tools": ["Git", "Docker", "AWS", "Firebase"],
   },
 
   // Resume
