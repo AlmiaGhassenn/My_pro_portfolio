@@ -16,7 +16,7 @@ export const translations = {
     // Hero
     hero: {
       greeting: "Hello, I'm",
-      roles: ["Full Stack Developer", "React Specialist", "UI/UX Enthusiast", "Next.js Developer"],
+      roles: ["Full Stack Developer", "React & Wordpress Specialist"],
       viewWork: "View My Work",
       getInTouch: "Get in Touch",
       resume: "Resume",
