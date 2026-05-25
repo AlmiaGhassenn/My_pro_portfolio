@@ -9,7 +9,8 @@ import { FloatingIcons } from "@/components/floating-icons";
 import { useLanguage } from "@/lib/i18n";
 
 export function Hero() {
-  const { t } = useLanguage();
+   const { t, locale } = useLanguage();
+   const resumeUrl = locale === 'fr' ? '/Ghassen_Almia_Resume_FR.pdf' : '/Ghassen_Almia_Resume.pdf';
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -173,14 +174,14 @@ export function Hero() {
           >
             {t.hero.getInTouch}
           </motion.button>
-          <motion.a
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            href={portfolioData.resume}
-            download
-            className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm flex items-center gap-2 text-sm sm:text-base"
-          >
+           <motion.a
+             whileHover={{ scale: 1.03, y: -2 }}
+             whileTap={{ scale: 0.98 }}
+             transition={{ type: "spring", stiffness: 400, damping: 20 }}
+             href={resumeUrl}
+             download
+             className="px-5 sm:px-7 py-3 sm:py-3.5 border-2 border-accent/30 text-accent rounded-xl font-medium hover:border-accent/60 hover:bg-accent/5 backdrop-blur-sm flex items-center gap-2 text-sm sm:text-base"
+           >
             <Download className="w-4 h-4" />
             {t.hero.resume}
           </motion.a>

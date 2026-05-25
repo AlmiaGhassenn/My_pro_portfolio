@@ -62,7 +62,7 @@ export const portfolioData = {
   },
 
   // Resume
-  resume: "/Ghassen_almia_resume.pdf",
+  resume: "/Ghassen_Almia_Resume.pdf",
 
   // Experience
   experience: [
