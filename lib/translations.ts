@@ -78,10 +78,10 @@ export const translations = {
       about: `I'm a passionate web developer with 2+ years of experience building scalable applications. I specialize in modern JavaScript frameworks and creating seamless user experiences. When I'm not coding, you'll find me contributing to open-source projects or writing about web development.`,
       location: "Bizerte, Tunisia",
       projects: {
-        1: { description: "Landing page for MDF - Professional and modern design showcasing company services." },
+        1: { description: "Professional landing page for Taxiks - Elegant and corporate design." },
         2: { description: "E-commerce application featuring product catalog and shopping cart functionality." },
         3: { description: "Medical esthétique platform for beauty and wellness services in Italy." },
-        4: { description: "Professional landing page for IBF Consulting TN - Elegant and corporate design." },
+        4: { description: "Professional landing page for Procom Tunisia - Elegant and corporate design." },
       },
       experience: {
         0: { role: "Freelance Web Developer", company: "Multiple Clients", description: "Worked with various clients to build custom websites and web applications, delivering high-quality solutions on time." },
@@ -163,10 +163,10 @@ export const translations = {
       about: `Je suis un développeur web passionné avec plus de 2 ans d'expérience dans la création d'applications évolutives. Je me spécialise dans les frameworks JavaScript modernes et la création d'expériences utilisateurs fluides. Quand je ne code pas, vous me trouverez en train de contribuer à des projets open-source ou d'écrire sur le développement web.`,
       location: "Bizerte, Tunisie",
       projects: {
-        1: { description: "Page d'atterrissage pour MDF - Design professionnel et moderne présentant les services de l'entreprise." },
-        2: { description: "Application e-commerce avec catalogue de produits et panier d'achat." },
-        3: { description: "Plateforme de médecine esthétique pour les services de beauté et bien-être en Italie." },
-        4: { description: "Page d'atterrissage professionnelle pour IBF Consulting TN - Design élégant et corporate." },
+        1: { description: "Professional landing page for Taxiks - Elegant and corporate design." },
+        2: { description: "E-commerce application featuring product catalog and shopping cart functionality." },
+        3: { description: "Medical esthétique platform for beauty and wellness services in Italy." },
+        4: { description: "Page d'atterrissage professionnelle pour Procom Tunisie — Design élégant et institutionnel." },
       },
       experience: {
         0: { role: "Développeur Web Freelance", company: "Plusieurs clients", description: "Travaillé avec divers clients pour créer des sites web et applications web sur mesure, livrant des solutions de qualité en temps voulu." },
@@ -251,7 +251,7 @@ export const translations = {
         1: { description: "صفحة هبوط لـ MDF - تصميم احترافي وحديث يعرض خدمات الشركة." },
         2: { description: "تطبيق تجارة إلكترونية يتضمن كتالوج منتجات ووظيفة سلة التسوق." },
         3: { description: "منصة طب تجميلي لخدمات التجميل والعافية في إيطاليا." },
-        4: { description: "صفحة هبوط احترافية لـ IBF Consulting TN - تصميم أنيق واحترافي." },
+        4: { description: "صفحة هبوط احترافية لشركة بروكم تونس — تصميم أنيق ومؤسساتي." },
       },
       experience: {
         0: { role: "مطور ويب مستقل", company: "عملاء متعددون", description: "عملت مع عملاء مختلفين لبناء مواقع وتطبيقات ويب مخصصة، وتقديم حلول عالية الجودة في الوقت المحدد." },
