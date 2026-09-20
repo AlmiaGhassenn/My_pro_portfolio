@@ -9,13 +9,13 @@ import type { Locale } from "@/lib/translations";
 
 const langLabels: Record<Locale, string> = {
   en: "EN",
-  fr: "FR",
+  it: "IT",
   ar: "AR",
 };
 
 const langNames: Record<Locale, string> = {
   en: "English",
-  fr: "Français",
+  it: "Italiano",
   ar: "العربية",
 };
 

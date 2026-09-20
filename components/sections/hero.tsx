@@ -10,7 +10,7 @@ import { useLanguage } from "@/lib/i18n";
 
 export function Hero() {
    const { t, locale } = useLanguage();
-   const resumeUrl = locale === 'fr' ? '/Ghassen_Almia_Resume_FR.pdf' : '/Ghassen_Almia_Resume.pdf';
+   const resumeUrl = locale === 'it' ? '/Ghassen_Almia_Resume_IT.pdf' : '/Ghassen_Almia_Resume_En.pdf';
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);

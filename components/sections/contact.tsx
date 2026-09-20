@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Send, CheckCircle, ArrowUpRight } from "lucide-react";
+import { Mail, MapPin, Phone, Send, CheckCircle, ArrowUpRight } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { portfolioData } from "@/lib/constants";
 import { useLanguage } from "@/lib/i18n";
@@ -147,6 +147,28 @@ export function Contact() {
                   <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{t.contact.emailMe}</p>
                   <p className="text-sm sm:text-base text-foreground font-medium mt-0.5 sm:mt-1 group-hover:text-primary transition-colors truncate">
                     {portfolioData.email}
+                  </p>
+                </div>
+                <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" />
+              </div>
+            </motion.a>
+
+            {/* Phone card */}
+            <motion.a
+              href="https://wa.me/393522519692"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -3 }}
+              className="group block p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-background/60 dark:bg-background/40 border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-sm"
+            >
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">{t.contact.phoneMe}</p>
+                  <p className="text-sm sm:text-base text-foreground font-medium mt-0.5 sm:mt-1 group-hover:text-primary transition-colors truncate">
+                    +39 352 251 9692
                   </p>
                 </div>
                 <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" />

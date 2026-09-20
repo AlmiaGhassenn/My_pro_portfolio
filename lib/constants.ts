@@ -5,13 +5,13 @@ export const portfolioData = {
   title: "Full Stack Web Developer",
   tagline: "Building beautiful and functional web experiences",
   email: "ghassenalmia.business@gmail.com",
-  location: "Bizerte, Tunisia",
+  location: "Messina, Italy",
 
   // Social links
   socials: [
     { name: "GitHub", url: "https://github.com/AlmiaGhassenn" },
     { name: "LinkedIn", url: "https://www.linkedin.com/in/ghassen-almia?trk=blended-typeahead" },
-    { name: "WhatsApp", url: "https://wa.me/21653519301" },
+    { name: "WhatsApp", url: "https://wa.me/393522519692" },
   ],
 
   // About section
@@ -51,6 +51,14 @@ export const portfolioData = {
       link: "https://procomtunisie.com",
       image: "/prcoom_pr.png",
     },
+    {
+      id: 5,
+      title: "Ibnou Soulayman",
+      description: "Educational platform and website for Ibnou Soulayman institution.",
+      tags: ["React", "Node.js", "Educational", "Full Stack"],
+      link: "https://ibnousoulayman.tn",
+      image: "/ibnousoulaymen.png",
+    },
   ],
 
   // Skills
@@ -62,7 +70,7 @@ export const portfolioData = {
   },
 
   // Resume
-  resume: "/Ghassen_Almia_Resume.pdf",
+  resume: "/Ghassen_Almia_Resume_En.pdf",
 
   // Experience
   experience: [
